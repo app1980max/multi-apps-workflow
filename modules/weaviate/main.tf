@@ -1,7 +1,6 @@
 
 resource "helm_release" "weaviate" {
   name       = "weaviate"
-  namespace  = "weaviate"
   repository = "https://weaviate.github.io/weaviate-helm"
   chart      = "weaviate"
   version    = "17.5.1"
