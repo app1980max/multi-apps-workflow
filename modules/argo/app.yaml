@@ -1,0 +1,18 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: crossplane-local
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: 'https://github.com/yevgenis2006/kubernetes-crossplane-workflow.git'
+    targetRevision: main
+    path: config/local
+  destination:
+    server: 'https://kubernetes.default.svc'
+    namespace: crossplane-system
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true

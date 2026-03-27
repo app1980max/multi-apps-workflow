@@ -1,0 +1,101 @@
+apiVersion: pkg.crossplane.io/v1
+kind: Provider
+metadata:
+  name: provider-k8s
+  annotations:
+    argocd.argoproj.io/sync-wave: "0"   # Apply after Provider
+spec:
+  package: xpkg.upbound.io/crossplane-contrib/provider-kubernetes:v0.15.0
+  
+---
+
+apiVersion: kubernetes.crossplane.io/v1alpha1
+kind: ProviderConfig
+metadata:
+  name: local-k8s
+  annotations:
+    argocd.argoproj.io/sync-wave: "0"   # Apply after Provider
+spec:
+  credentials:
+    source: InjectedIdentity
+---
+
+apiVersion: kubernetes.crossplane.io/v1alpha1
+kind: Object
+metadata:
+  name: demo-namespace
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"
+spec:
+  providerConfigRef:
+    name: local-k8s
+  forProvider:
+    manifest:
+      apiVersion: v1
+      kind: Namespace
+      metadata:
+        name: demo-namespace
+
+---
+
+apiVersion: kubernetes.crossplane.io/v1alpha1
+kind: Object
+metadata:
+  name: nginx-deployment
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"
+spec:
+  providerConfigRef:
+    name: local-k8s
+  forProvider:
+    manifest:
+      apiVersion: apps/v1
+      kind: Deployment
+      metadata:
+        name: nginx-demo
+        namespace: demo-namespace
+      spec:
+        replicas: 2
+        selector:
+          matchLabels:
+            app: nginx
+        template:
+          metadata:
+            labels:
+              app: nginx
+          spec:
+            containers:
+              - name: nginx
+                image: nginx:latest
+                ports:
+                  - containerPort: 80
+
+---
+
+apiVersion: kubernetes.crossplane.io/v1alpha1
+kind: Object
+metadata:
+  name: nginx-service
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"
+spec:
+  providerConfigRef:
+    name: local-k8s
+  forProvider:
+    manifest:
+      apiVersion: v1
+      kind: Service
+      metadata:
+        name: nginx-svc
+        namespace: demo-namespace
+      spec:
+        selector:
+          app: nginx
+        ports:
+          - protocol: TCP
+            port: 80
+            targetPort: 80
+
+
+
+
