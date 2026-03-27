@@ -5,21 +5,11 @@ variable "kubeconfig_path" {
   default     = "~/.kube/config"
 }
 
-variable "crossplane_namespace" {
-  type = string
+variable "charts_path" {
+  default     = "./modules"
+  description = "The charts full path"
 }
 
-variable "crossplane_version" {
-  type = string
-}
-
-variable "crossplane_replicas" {
-  type = number
-}
-
-variable "crossplane_metrics_enabled" {
-  type = bool
-}
 
 
 
