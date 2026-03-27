@@ -10,8 +10,5 @@ module "flowise" {
   depends_on = [module.weaviate]
 }
 
-#module "n8n" {
-#  source = "./modules/n8n"
-#  depends_on = [module.weaviate]
-#}
+
 
