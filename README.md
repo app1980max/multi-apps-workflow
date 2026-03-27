@@ -1,6 +1,4 @@
-<img width="1816" height="1054" alt="image" src="https://github.com/user-attachments/assets/fcd5c45b-60ba-4740-b77f-bfeb365333f2" />
-
-
+<img width="1048" height="608" alt="image" src="https://github.com/user-attachments/assets/f551ea0d-7c77-4789-8f81-1639a476f983" />
 
 
 ## Multi-Cluster-Workflow | AWS - GCP - Azure 
