@@ -1,0 +1,57 @@
+name: Terraform Kubernetes
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  terraform:
+    name: Terraform
+    runs-on: ubuntu-latest
+
+    env:
+      TF_VERSION: 1.10.4  # Set your Terraform version
+
+    steps:
+      # 1️⃣ Checkout repo
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # 2️⃣ Setup Terraform
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: ${{ env.TF_VERSION }}
+
+      # 3️⃣ Configure Kubeconfig
+      - name: Setup Kubeconfig
+        run: |
+          mkdir -p $HOME/.kube
+          echo "${{ secrets.KUBE_CONFIG }}" > $HOME/.kube/config
+          chmod 600 $HOME/.kube/config
+
+      # 4️⃣ Terraform Init
+      - name: Terraform Init
+        run: terraform init -input=false
+
+      # 5️⃣ Terraform Format Check (optional)
+      - name: Terraform fmt
+        run: terraform fmt -check
+
+      # 6️⃣ Terraform Validate
+      - name: Terraform Validate
+        run: terraform validate
+
+      # 7️⃣ Terraform Plan
+      - name: Terraform Plan
+        id: plan
+        run: terraform plan -out=tfplan
+
+      # 8️⃣ Terraform Apply (only on main branch)
+      - name: Terraform Apply
+        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+        run: terraform apply -input=false -auto-approve tfplan
