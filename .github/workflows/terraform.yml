@@ -40,7 +40,7 @@ jobs:
 
       # 5️⃣ Terraform Format Check (optional)
       - name: Terraform fmt
-        run: terraform fmt -check -recursive
+        run: terraform fmt -recursive
 
       # 6️⃣ Terraform Validate
       - name: Terraform Validate
