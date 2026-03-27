@@ -1,16 +1,16 @@
 
 ###  ---  Default Template  ---  ###
-module "minio" {
-  source = "./modules/minio"
-  depends_on = [kubernetes_namespace.crossplane]
+module "weaviate" {
+  source = "./modules/weaviate"
+  depends_on = [kubernetes_namespace.n8n]
 }
 
-module "crossplane" {
-  source = "./modules/crossplane"
-  depends_on = [module.minio]
+module "n8n" {
+  source = "./modules/n8n"
+  depends_on = [module.weaviate]
 }
 
-module "argo" {
-  source = "./modules/argo"
-  depends_on = [module.crossplane]
+module "flowise" {
+  source = "./modules/flowise"
+  depends_on = [module.n8n]
 }
