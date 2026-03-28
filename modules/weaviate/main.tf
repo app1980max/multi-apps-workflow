@@ -11,6 +11,8 @@ resource "helm_release" "weaviate" {
   cleanup_on_fail  = true
   timeout          = 600
 
+  # Forces recreate if something exists
+  force_update = true
 
   set {
   name  = "service.type"
