@@ -6,7 +6,6 @@ resource "kubernetes_namespace" "n8n" {
       "app.kubernetes.io/managed-by" = "terraform"
     }
   }
-
   lifecycle {
     ignore_changes = [metadata]
   }
