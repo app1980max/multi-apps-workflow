@@ -8,12 +8,12 @@ resource "helm_release" "flowise" {
   namespace        = "flowise-ai"
   create_namespace = true
 
+  # Forces recreate if something exists
+  force_update = true
+
   atomic           = false
   cleanup_on_fail  = true
   timeout          = 600
-
-# Forces recreate if something exists
-  force_update = true
 
   set {
     name  = "image.tag"
