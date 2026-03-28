@@ -2,17 +2,16 @@
 
 
 ## Multi-Cluster-Workflow | AWS - GCP - Azure 
-Crossplane is an open-source cloud infrastructure control plane that lets you provision and manage cloud resources using Kubernetes APIs.
+GitOps-style Terraform CI/CD workflow with GitHub Actions, multiple environments, and remote state backends. Here’s a breakdown and what it means for your setup:
 
 
-🏅  Key Features and Purpose
+🏅  Workflow Overview
 ```
-✔ Multi-cloud provisioning
-✔ Platform engineering / Internal Developer Platforms
-✔ Abstractions over infrastructure
-✔ GitOps-driven infra
-✔ Drift detection
-✔ Long-lived infrastructure
+✔ Terraform Configurations
+✔ Code Push → GitHub Actions
+✔ Workspaces
+✔ Provision Resources
+✔ Terraform State Validation
 ```
 
 
