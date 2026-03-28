@@ -6,4 +6,8 @@ labels = {
 "app.kubernetes.io/managed-by" = "terraform"
   }
  }
+lifecycle {
+    ignore_changes = [metadata]
+  }
+ }
 }
