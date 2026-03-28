@@ -10,5 +10,4 @@ resource "kubernetes_namespace" "n8n" {
   lifecycle {
     ignore_changes = [metadata]
   }
-}   <- THIS IS CORRECT, no extra brace needed
-}
+}   
