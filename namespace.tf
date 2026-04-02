@@ -6,6 +6,7 @@ resource "kubernetes_namespace" "n8n" {
       "app.kubernetes.io/managed-by" = "terraform"
     }
   }
+
   lifecycle {
     prevent_destroy = true
     ignore_changes = all
