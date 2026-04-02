@@ -7,6 +7,6 @@ resource "kubernetes_namespace" "n8n" {
     }
   }
   lifecycle {
-    ignore_changes = all
+    prevent_destroy = true
   }
 }   
