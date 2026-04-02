@@ -1,6 +1,5 @@
 
-# 2️⃣ Validate with curl using null_resource
-resource "null_resource" "weaviate_curl_check" {
+resource "null_resource" "weaviate_ready" {
   #depends_on = [helm_release.weaviate]
 
   provisioner "local-exec" {
@@ -25,3 +24,48 @@ resource "null_resource" "weaviate_curl_check" {
   }
 }
 
+resource "null_resource" "weaviate_schema_data" {
+  depends_on = [null_resource.weaviate_ready]
+
+  provisioner "local-exec" {
+    command = <<EOT
+      echo "📄 Creating schema and inserting data inside Kubernetes..."
+
+      kubectl run schema-setup --rm -i --restart=Never \
+        --image=yauritux/busybox-curl:latest \
+        -- sh -c '
+          set -e
+
+          # Create schema
+          curl -s -X POST http://weaviate.weaviate.svc.cluster.local:80/v1/schema \
+            -H "Content-Type: application/json" \
+            -d '\''{
+              "classes": [
+                {
+                  "class": "Book",
+                  "description": "A class representing books",
+                  "vectorizer": "none",
+                  "properties": [
+                    {"name": "title", "dataType": ["string"]},
+                    {"name": "author", "dataType": ["string"]},
+                    {"name": "year", "dataType": ["int"]}
+                  ]
+                }
+              ]
+            }'\''
+
+          # Insert data
+          for book in \
+            '\''{"title":"The Hobbit","author":"J.R.R. Tolkien","year":1937}'\'' \
+            '\''{"title":"1984","author":"George Orwell","year":1949}'\'' \
+            '\''{"title":"Dune","author":"Frank Herbert","year":1965}'\''; do
+              curl -s -X POST http://weaviate.weaviate.svc.cluster.local:80/v1/objects \
+                   -H "Content-Type: application/json" \
+                   -d "{\"class\": \"Book\", \"properties\": $book}"
+          done
+
+          echo "✅ Schema and data setup complete!"
+        '
+    EOT
+  }
+}
