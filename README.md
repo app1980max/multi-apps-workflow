@@ -5,7 +5,7 @@
 GitOps-style Terraform CI/CD workflow with GitHub Actions, multiple environments, and remote state backends. Here’s a breakdown and what it means for your setup:
 
 
-🚀  Workflow Overview
+🚀  Overview
 ```
 ✅ Terraform Configurations
 ✅ Code Push → GitHub Actions
@@ -15,6 +15,12 @@ GitOps-style Terraform CI/CD workflow with GitHub Actions, multiple environments
 ```
 
 
+🎯 Workflow
+```
+✔ Fully automated provisioning with Terraform
+✔ Manage your application with GitHub Actions
+```
+
 
 🧪 Deployment Options
 ```
@@ -23,4 +29,3 @@ terraform validate
 terraform plan -var-file="template.tfvars"
 terraform apply -var-file="template.tfvars" -auto-approve
 ```
-
