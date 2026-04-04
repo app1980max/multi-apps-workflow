@@ -30,7 +30,7 @@ resource "null_resource" "weaviate_schema_data" {
 
   provisioner "local-exec" {
     command = <<EOT
-      echo "📄 Creating schema and inserting data inside Kubernetes..."
+      echo "📄 Creating schema and inserting data inside Weaviate..."
 
       kubectl run schema-setup --rm -i --restart=Never \
         --image=yauritux/busybox-curl:latest \
@@ -63,6 +63,7 @@ resource "null_resource" "weaviate_schema_data" {
               curl -s -X POST http://weaviate.weaviate.svc.cluster.local:80/v1/objects \
                    -H "Content-Type: application/json" \
                    -d "{\"class\": \"Book\", \"properties\": $book}"
+          sleep 5
           done
           echo "✅ Schema and data setup complete!"
         '
@@ -108,6 +109,7 @@ resource "null_resource" "weaviate_flowise_data" {
               curl -s -X POST http://weaviate.weaviate.svc.cluster.local:80/v1/objects \
                    -H "Content-Type: application/json" \
                    -d "{\"class\": \"Article\", \"properties\": $article}"
+          sleep 5
           done
           echo "✅ Flowise schema and data setup complete!"
         '
@@ -134,7 +136,7 @@ resource "null_resource" "flowise_weaviate_validation" {
 
           echo "📝 Checking Article objects..."
           curl -s "http://weaviate.weaviate.svc.cluster.local:80/v1/objects?class=Article"
-
+          sleep 5
           echo "✅ Flowise validation complete! Data is accessible."
         '
     EOT
