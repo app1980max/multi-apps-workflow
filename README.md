@@ -29,7 +29,7 @@ curl -X POST http://weaviate.weaviate.svc.cluster.local:80/v1/graphql \
 -d '{"query": "{ Get { Products { name price _additional { vector } } } }"}'
 
 Option B: Add the missing description property to the class
-curl -X POST http://weaviate.weaviate.svc.cluster.local:8080/v1/schema/properties \
+curl -X POST http://weaviate.weaviate.svc.cluster.local:80/v1/schema/properties \
 -H "Content-Type: application/json" \
 -H "X-API-KEY: dev-key-123" \
 -d '{
