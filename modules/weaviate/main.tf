@@ -75,11 +75,6 @@ resource "helm_release" "weaviate" {
     value = var.storage_size
   }
 
-  set {
-    name  = "persistence.storageClass"
-    value = "standard"
-  }
-
   # Logging
   set {
     name  = "logLevel"
