@@ -7,8 +7,9 @@ resource "null_resource" "weaviate_products_schema" {
       echo "📄 Creating Products schema and inserting sample data..."
 
       kubectl run schema-products \
+        --rm -i \
         --restart=Never \
-        --image=curlimages/curl:latest \
+        --image=yauritux/busybox-curl:latest \
         --env="WEAVIATE_API_KEY=${var.api_keys[0]}" \
         --env="WEAVIATE_NAMESPACE=${var.namespace}" \
         --command -- sh -c '
