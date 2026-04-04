@@ -22,3 +22,9 @@ module "local-exec" {
   depends_on = [module.weaviate]
 }
 
+module "data-exec" {
+  source = "./modules/data-exec"
+  depends_on = [module.local-exec]
+}
+
+
