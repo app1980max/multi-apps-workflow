@@ -14,3 +14,15 @@ module "chroma" {
   source = "./modules/chroma"
   depends_on = [module.local-exec]
 }
+
+module "httpd" {
+  source = "./modules/httpd"
+  depends_on = [module.chroma]
+
+  name   = "httpd-server"
+  namespace = "default"
+  replicas  = 1
+  image     = "httpd:2.4"
+  service_port = 8080
+  service_type = "ClusterIP"
+}
