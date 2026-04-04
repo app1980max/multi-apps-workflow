@@ -1,23 +1,8 @@
 
 ###  ---  Default Application  ---  ###
-module "weaviate" {
-  source = "./modules/weaviate"
-  depends_on = [kubernetes_namespace.n8n]
-}
-
-module "local-exec" {
-  source = "./modules/local-exec"
-  depends_on = [module.weaviate]
-}
-
-module "chroma" {
-  source = "./modules/chroma"
-  depends_on = [module.local-exec]
-}
-
 module "httpd" {
   source = "./modules/httpd"
-  depends_on = [module.chroma]
+  depends_on = [kubernetes_namespace.n8n]
 
   name   = "httpd-server"
   namespace = "default"
@@ -26,3 +11,19 @@ module "httpd" {
   service_port = 8080
   service_type = "ClusterIP"
 }
+
+module "weaviate" {
+  source = "./modules/weaviate"
+  depends_on = [module.httpd]
+}
+
+module "local-exec" {
+  source = "./modules/local-exec"
+  depends_on = [module.weaviate]
+}
+
+#module "chroma" {
+#  source = "./modules/chroma"
+#  depends_on = [module.local-exec]
+#}
+
