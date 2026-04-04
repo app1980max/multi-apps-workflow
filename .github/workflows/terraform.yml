@@ -6,7 +6,6 @@ on:
       - main
     paths:
       - "*.tf"
-      - "modules/**"
   pull_request:
     branches:
       - main
