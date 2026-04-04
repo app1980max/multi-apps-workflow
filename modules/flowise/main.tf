@@ -28,4 +28,21 @@ resource "helm_release" "flowise" {
     name  = "env.WEAVIATE_URL"
     value = "http://weaviate.weaviate.svc.cluster.local:80"
   }
+
+  set {
+    name  = "env.WEAVIATE_API_KEY"
+    value = "dev-key-123"
+  }
+
+  # 🔹 Auth (IMPORTANT)
+  set {
+    name  = "env.FLOWISE_USERNAME"
+    value = "admin"
+  }
+
+  set {
+    name  = "env.FLOWISE_PASSWORD"
+    value = "admin123"
+  }
+  
 }
